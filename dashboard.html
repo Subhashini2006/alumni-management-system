@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – AlumniConnect</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="dashboard-body" data-page="dashboard">
+
+  <div class="toast-container"></div>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon">🎓</div>
+          AlumniConnect
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Main Menu</div>
+
+        <button class="sidebar-nav-item active" data-section="overview">
+          <span class="nav-icon">📊</span>
+          Overview
+        </button>
+
+        <button class="sidebar-nav-item" data-section="add">
+          <span class="nav-icon">➕</span>
+          Add Alumni
+        </button>
+
+        <button class="sidebar-nav-item" data-section="alumni">
+          <span class="nav-icon">👥</span>
+          Alumni Records
+          <span class="nav-badge" id="alumniCountBadge">0</span>
+        </button>
+
+        <div class="nav-section-label">System</div>
+
+        <button class="sidebar-nav-item" id="logoutBtn">
+          <span class="nav-icon">🚪</span>
+          Logout
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="user-avatar" id="userAvatar">ST</div>
+          <div class="user-info">
+            <div class="user-name" id="userName">Staff Member</div>
+            <div class="user-role" id="userEmail">staff@alumni.edu</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="hamburger" id="hamburger">☰</button>
+          <div>
+            <div class="topbar-title" id="pageTitle">Dashboard Overview</div>
+            <div class="topbar-subtitle" id="pageSubtitle">Welcome back! Here's what's happening.</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-search">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="globalSearch" placeholder="Search alumni..." />
+          </div>
+          <button class="topbar-btn" title="Notifications">
+            🔔
+            <span class="notification-dot"></span>
+          </button>
+          <div class="user-avatar" style="width:38px;height:38px;font-size:13px;cursor:pointer;" id="topbarUser">ST</div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <div class="page-content">
+
+        <!-- STATS GRID -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-info">
+              <div class="stat-card-label">Total Alumni</div>
+              <div class="stat-card-value" id="statTotal">0</div>
+              <div class="stat-card-change change-up">↑ All time</div>
+            </div>
+            <div class="stat-card-icon icon-bg-purple">👥</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-info">
+              <div class="stat-card-label">Departments</div>
+              <div class="stat-card-value" id="statDepts">0</div>
+              <div class="stat-card-change change-up">↑ Active</div>
+            </div>
+            <div class="stat-card-icon icon-bg-blue">🏛️</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-info">
+              <div class="stat-card-label">Companies</div>
+              <div class="stat-card-value" id="statCompanies">0</div>
+              <div class="stat-card-change change-up">↑ Unique</div>
+            </div>
+            <div class="stat-card-icon icon-bg-green">🏢</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-info">
+              <div class="stat-card-label">Added This Year</div>
+              <div class="stat-card-value" id="statRecent">0</div>
+              <div class="stat-card-change change-up">↑ 2025</div>
+            </div>
+            <div class="stat-card-icon icon-bg-orange">📅</div>
+          </div>
+        </div>
+
+        <!-- OVERVIEW SECTION -->
+        <div class="dashboard-section active-section" id="section-overview">
+          <div class="section-header-bar">
+            <h2><span>📊</span> Department Statistics & Recent Activity</h2>
+            <button class="btn btn-primary btn-sm" onclick="navigateTo('add')">+ Add Alumni</button>
+          </div>
+          <div class="section-body">
+            <div class="overview-grid">
+              <!-- Dept Chart -->
+              <div>
+                <div style="margin-bottom:20px;">
+                  <h3 style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:4px;">Alumni by Department</h3>
+                  <p style="font-size:13px;color:var(--text-muted);">Distribution across all departments</p>
+                </div>
+                <div class="dept-chart-bars" id="deptChart">
+                  <div class="empty-state">
+                    <div class="empty-icon">📊</div>
+                    <div class="empty-title">No data yet</div>
+                    <div class="empty-desc">Add alumni to see department statistics</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Activity Log -->
+              <div>
+                <div style="margin-bottom:20px;">
+                  <h3 style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:4px;">Recent Activity</h3>
+                  <p style="font-size:13px;color:var(--text-muted);">Latest system actions</p>
+                </div>
+                <div class="activity-list" id="activityLog">
+                  <div style="text-align:center;padding:30px;color:var(--text-muted);font-size:14px;">No recent activity</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADD ALUMNI SECTION -->
+        <div class="dashboard-section" id="section-add">
+          <div class="section-header-bar">
+            <h2><span>➕</span> Add New Alumni</h2>
+            <button class="btn btn-sm" style="background:var(--bg);border:1.5px solid var(--border);color:var(--text-secondary);" onclick="navigateTo('alumni')">
+              👥 View All Records
+            </button>
+          </div>
+          <div class="section-body">
+            <form id="addAlumniForm" novalidate>
+              <div class="form-grid">
+
+                <div class="form-group">
+                  <label class="form-label" for="alumName">Full Name *</label>
+                  <input type="text" id="alumName" class="form-control" placeholder="e.g. Rahul Sharma" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="alumEmail">Email Address *</label>
+                  <input type="email" id="alumEmail" class="form-control" placeholder="e.g. rahul@gmail.com" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="alumPhone">Phone Number *</label>
+                  <input type="tel" id="alumPhone" class="form-control" placeholder="e.g. +91 98765 43210" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="alumDept">Department *</label>
+                  <select id="alumDept" class="form-control" required>
+                    <option value="">Select Department</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Information Technology">Information Technology</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Mechanical">Mechanical</option>
+                    <option value="Civil">Civil</option>
+                    <option value="Electrical">Electrical</option>
+                    <option value="Chemical">Chemical</option>
+                    <option value="Biotechnology">Biotechnology</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Physics">Physics</option>
+                    <option value="MBA">MBA</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="alumYear">Passout Year *</label>
+                  <select id="alumYear" class="form-control" required>
+                    <option value="">Select Year</option>
+                    <option value="2025">2025</option>
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                    <option value="2020">2020</option>
+                    <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+                    <option value="2016">2016</option>
+                    <option value="2015">2015</option>
+                    <option value="2014">2014</option>
+                    <option value="2013">2013</option>
+                    <option value="2012">2012</option>
+                    <option value="2011">2011</option>
+                    <option value="2010">2010</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="alumCompany">Current Company *</label>
+                  <input type="text" id="alumCompany" class="form-control" placeholder="e.g. Google, Infosys, TCS" required />
+                </div>
+
+                <div class="form-group full-width">
+                  <label class="form-label" for="alumLocation">Current Location *</label>
+                  <input type="text" id="alumLocation" class="form-control" placeholder="e.g. Bangalore, Mumbai, Hyderabad" required />
+                </div>
+
+              </div>
+
+              <div style="display:flex;gap:12px;margin-top:8px;flex-wrap:wrap;">
+                <button type="submit" class="btn btn-success btn-lg">
+                  ✅ Add Alumni Record
+                </button>
+                <button type="reset" class="btn btn-lg" style="background:var(--bg);border:1.5px solid var(--border);color:var(--text-secondary);">
+                  🔄 Reset Form
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- ALUMNI TABLE SECTION -->
+        <div class="dashboard-section" id="section-alumni">
+          <div class="section-header-bar">
+            <h2><span>👥</span> Alumni Records</h2>
+            <button class="btn btn-primary btn-sm" onclick="navigateTo('add')">+ Add New</button>
+          </div>
+          <div class="section-body">
+            <div class="table-controls">
+              <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input
+                  type="text"
+                  id="tableSearch"
+                  placeholder="Search by name, email, company..."
+                />
+              </div>
+              <div class="table-filters">
+                <select class="filter-select" id="deptFilter">
+                  <option value="">All Departments</option>
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Information Technology">Information Technology</option>
+                  <option value="Electronics">Electronics</option>
+                  <option value="Mechanical">Mechanical</option>
+                  <option value="Civil">Civil</option>
+                  <option value="Electrical">Electrical</option>
+                  <option value="Chemical">Chemical</option>
+                  <option value="Biotechnology">Biotechnology</option>
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="Physics">Physics</option>
+                  <option value="MBA">MBA</option>
+                  <option value="Other">Other</option>
+                </select>
+                <select class="filter-select" id="yearFilter">
+                  <option value="">All Years</option>
+                  <option value="2025">2025</option>
+                  <option value="2024">2024</option>
+                  <option value="2023">2023</option>
+                  <option value="2022">2022</option>
+                  <option value="2021">2021</option>
+                  <option value="2020">2020</option>
+                  <option value="2019">2019</option>
+                  <option value="2018">2018</option>
+                  <option value="2017">2017</option>
+                  <option value="2016">2016</option>
+                  <option value="2015">2015</option>
+                  <option value="2014">2014</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-wrapper">
+              <table class="alumni-table">
+                <thead>
+                  <tr>
+                    <th>Alumni</th>
+                    <th>Phone</th>
+                    <th>Department</th>
+                    <th>Pass Year</th>
+                    <th>Company</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="alumniTableBody">
+                </tbody>
+              </table>
+
+              <div id="emptyState" class="empty-state" style="display:none;">
+                <div class="empty-icon">👥</div>
+                <div class="empty-title">No alumni records found</div>
+                <div class="empty-desc">
+                  Try adjusting your search or filters, or
+                  <button onclick="navigateTo('add')" style="background:none;border:none;color:var(--primary);font-weight:600;cursor:pointer;font-size:14px;">add a new alumni record</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-info">
+            <span id="tableInfo">No records found</span>
+            <span style="color:var(--text-muted);">AlumniConnect · v2.0</span>
+          </div>
+        </div>
+
+      </div>
+      <!-- END PAGE CONTENT -->
+
+    </div>
+    <!-- END MAIN CONTENT -->
+
+  </div>
+  <!-- END DASHBOARD LAYOUT -->
+
+  <script src="script.js"></script>
+</body>
+</html>

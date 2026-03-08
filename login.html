@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff Login – AlumniConnect</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="auth-body" data-page="login">
+
+  <div class="toast-container"></div>
+
+  <!-- LEFT PANEL -->
+  <div class="auth-left">
+    <div class="auth-brand">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🎓</div>
+        AlumniConnect
+      </a>
+      <h2 class="auth-headline">
+        Manage your alumni<br />network with ease
+      </h2>
+      <p class="auth-sub">
+        Sign in to access your dashboard, manage alumni records, 
+        and gain insights into your institution's graduate network.
+      </p>
+    </div>
+    <div class="auth-features">
+      <div class="auth-feature-item">
+        <div class="check">✓</div>
+        Secure staff authentication
+      </div>
+      <div class="auth-feature-item">
+        <div class="check">✓</div>
+        Real-time alumni management
+      </div>
+      <div class="auth-feature-item">
+        <div class="check">✓</div>
+        Advanced search & filtering
+      </div>
+      <div class="auth-feature-item">
+        <div class="check">✓</div>
+        Department-wise analytics
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="auth-right">
+    <div class="auth-card">
+      <div class="auth-card-header">
+        <div style="font-size:36px;margin-bottom:12px;">👋</div>
+        <h1 class="auth-card-title">Welcome back</h1>
+        <p class="auth-card-subtitle">Sign in to your staff account to continue</p>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Email Address</label>
+          <div class="input-group">
+            <span class="input-icon">📧</span>
+            <input
+              type="email"
+              id="loginEmail"
+              class="form-control"
+              placeholder="staff@institution.edu"
+              autocomplete="email"
+              required
+            />
+          </div>
+          <div class="error-text" id="emailError"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">
+            Password
+            <a href="#" style="float:right;color:var(--primary);font-weight:600;font-size:12px;">Forgot password?</a>
+          </label>
+          <div class="input-group" style="position:relative;">
+            <span class="input-icon">🔒</span>
+            <input
+              type="password"
+              id="loginPassword"
+              class="form-control"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            />
+            <button type="button" class="password-toggle" data-target="loginPassword">👁</button>
+          </div>
+          <div class="error-text" id="passwordError"></div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:24px;">
+          <input type="checkbox" id="rememberMe" style="width:16px;height:16px;accent-color:var(--primary);cursor:pointer;" />
+          <label for="rememberMe" style="font-size:13px;color:var(--text-secondary);cursor:pointer;">
+            Keep me signed in
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full btn-lg" style="margin-bottom:8px;">
+          Sign In to Dashboard
+        </button>
+      </form>
+
+      <div class="auth-divider">or</div>
+
+      <div style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;text-align:center;margin-bottom:8px;border:1.5px dashed var(--border);">
+        <p style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">🧪 Demo Credentials</p>
+        <p style="font-size:13px;color:var(--text-secondary);font-weight:500;">Create an account to get started</p>
+      </div>
+
+      <div class="auth-link">
+        Don't have an account?
+        <a href="signup.html">Create one now →</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
